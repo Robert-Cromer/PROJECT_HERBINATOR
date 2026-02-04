@@ -2,6 +2,12 @@
 
 // Import drivers for sensors?
 
+// Temporary motor pins
+
+const int ENABLE = 5;
+const int DIRA = 3;
+const int DIRB = 4;
+
 // -------------------- Pins --------------------
 const int PUMP_MOTOR = 10; //D10, PWM
 const int WATER_HIGH = 0; //D0
@@ -11,7 +17,7 @@ const int TEMP_READ = 1; //A1
 
 // How frequently we want to sample the sensors
 // Essentially our clock cycle time, which recall is the inverse of frequency.
-const unsigned long SENSOR_SAMPLE_MS = 1000UL;
+const unsigned long SENSOR_SAMPLE_MS = 1000UL; // read sensors every 1s
 
 // -------------------- Moisture Calibration --------------------
 // You MUST calibrate these for your sensor + soil:
@@ -38,7 +44,6 @@ const float TEMP_ADJUST_MAX = 7.0; // max +/- percent points added/subtracted
 const char PUMP_PMW_STRENGTH = 128; // Value from 0 to 255 to control the pump speed using PWM.
 const unsigned long MAX_PUMP_ON_MS       = 10UL * 1000UL; // 10 seconds max per cycle
 const unsigned long MIN_TIME_BETWEEN_MS  = 30UL * 60UL * 1000UL; // 30 minutes between cycles
-const unsigned long SENSOR_SAMPLE_MS     = 1000UL; // read sensors every 1s
 
 // -------------------- State --------------------
 bool pumpOn = false;
@@ -49,6 +54,11 @@ unsigned long lastSampleMs = 0;
 ArduinoLEDMatrix matrix;
 
 void setup() {
+  // temporary
+  pinMode(ENABLE,OUTPUT);
+  pinMode(DIRA,OUTPUT);
+  pinMode(DIRB,OUTPUT);
+
   // put your setup code here, to run once:
   pinMode(PUMP_MOTOR, OUTPUT);
   pinMode(WATER_HIGH, OUTPUT);
@@ -57,6 +67,18 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT); // Initialize the digital pin as an output.
 
   byte frame[8][12] = {
+    { 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0 },
+    { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+    { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+    { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+    { 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1 },
+    { 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0 },
+    { 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0 },
+    { 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0 }
+  };
+
+  /*
+    byte frame[8][12] = {
     { 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0 },
     { 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0 },
     { 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0 },
@@ -66,15 +88,27 @@ void setup() {
     { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
   };
+  */
 
   matrix.begin();
   matrix.renderBitmap(frame, 8, 12);
+  Serial.begin(9600);
+}
+
+float clampf(float x, float a, float b) {
+  if (x < a) return a;
+  if (x > b) return b;
+  return x;
 }
 
 void pumpSet(bool on) {
   pumpOn = on;
 
-  analogWrite(PUMP_MOTOR, on ? PUMP_PMW_STRENGTH : LOW); // TODO: Validate this arduino board is active low or active high
+  // analogWrite(PUMP_MOTOR, on ? PUMP_PMW_STRENGTH : LOW); // TODO: Validate this arduino board is active low or active high
+
+  digitalWrite(ENABLE, pumpOn ? HIGH : LOW); // enable on
+  digitalWrite(DIRA,HIGH); //one way
+  digitalWrite(DIRB,LOW);
 
   if (on) pumpStartMs = millis();
 }
@@ -82,31 +116,31 @@ void pumpSet(bool on) {
 void loop() {
   unsigned long now = millis(); 
 
-  if (now - lastSampleMs < SENSOR_SAMPLE_MS) return;
+  if (now - lastSampleMs <= SENSOR_SAMPLE_MS) return;
 
-  lastSampleMs = SENSOR_SAMPLE_MS;
+  lastSampleMs = now;
 
   // Read moisture
   int rawMoist = analogRead(MOISTURE_READ);
-  //float moistPct = moisturePercentFromRaw(rawMoist); Will need to work w/ Sensor to get this part coded.
+  int moistPct = (1.0f - ((float) rawMoist / 477)) * 100; //moisturePercentFromRaw(rawMoist); Will need to work w/ Sensor to get this part coded.
 
   // Read temperature
-  float tempC = //sensors.getTempCByIndex(0); Call temperature library from here .
+  float tempC = 0; //sensors.getTempCByIndex(0); Call temperature library from here .
 
   bool tempValid = (tempC > -50.0 && tempC < 80.0); // Check if the sensor read a temperature that makes sense.
 
-  float adj = tempValid ? tempThresholdAdjust(tempC) : 0.0f; // Get temperature adjustment for the moisture levels based on temperature
+  float adj = 0; //tempValid ? tempThresholdAdjust(tempC) : 0.0f; // Get temperature adjustment for the moisture levels based on temperature
 
   // Adjust on and off thresholds based on the current temperature
   float onTh  = clampf(ON_THRESHOLD_BASE  + adj, 5.0f, 80.0f);
   float offTh = clampf(OFF_THRESHOLD_BASE + adj, onTh + 2.0f, 95.0f);
 
   int rawWaterPresent = analogRead(WATER_READ);
-  bool waterPresent = rawWaterPresent >= WATER_THRESHOLD
+  bool waterPresent = true; // TEMPORARY OVERRIDE //rawWaterPresent >= WATER_THRESHOLD;
 
     // Decision logic
   if (!pumpOn) {
-    bool allowedByCooldown = (now - lastWaterMs) >= MIN_TIME_BETWEEN_MS;
+    bool allowedByCooldown = true; //(now - lastWaterMs) >= MIN_TIME_BETWEEN_MS;
     bool tooDry = (moistPct <= onTh);
 
     if (allowedByCooldown && tooDry && waterPresent) {
