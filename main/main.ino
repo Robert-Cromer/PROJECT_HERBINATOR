@@ -17,20 +17,20 @@ const int TEMP_READ = 1; //A1
 
 // How frequently we want to sample the sensors
 // Essentially our clock cycle time, which recall is the inverse of frequency.
-const unsigned long SENSOR_SAMPLE_MS = 1000UL; // read sensors every 1s
+const unsigned long SENSOR_SAMPLE_MS = 100UL; // read sensors every 1s
 
 // -------------------- Moisture Calibration --------------------
 // You MUST calibrate these for your sensor + soil:
 // - MOISTURE_DRY: reading when probe is in dry soil (or in air)
 // - MOISTURE_WET: reading when probe is in fully wet soil (water-saturated)
 // Many capacitive sensors read HIGH when dry and LOWER when wet, but it varies.
-const int MOISTURE_DRY = 0; // Read from A0 with moisture sensor in the air.
-const int MOISTURE_WET = 0; // Read from A0 with moisture sensor in damp soil/a cup of water
+const int MOISTURE_DRY = 475; // Read from A0 with moisture sensor in the air.
+const int MOISTURE_WET = 210; // Read from A0 with moisture sensor in damp soil/a cup of water
 
 // -------------------- Watering Policy --------------------
 // Base thresholds (in % moisture)
-const float ON_THRESHOLD_BASE  = 0;  // water when moisture drops below this
-const float OFF_THRESHOLD_BASE = 0;  // stop when moisture rises above this, too wet!
+const float ON_THRESHOLD_BASE  = 0.25;  // water when moisture drops below this
+const float OFF_THRESHOLD_BASE = 0.75;  // stop when moisture rises above this, too wet!
 const int WATER_THRESHOLD = 0; // Threshold for when we detect current going thru the water to verify that the water is in the container.
 
 // Temperature adjustment (simple, practical)
@@ -41,9 +41,8 @@ const float COLD_TEMP_C = 12.0;
 const float TEMP_ADJUST_MAX = 7.0; // max +/- percent points added/subtracted
 
 // Pump timing safety
-const char PUMP_PMW_STRENGTH = 128; // Value from 0 to 255 to control the pump speed using PWM.
-const unsigned long MAX_PUMP_ON_MS       = 10UL * 1000UL; // 10 seconds max per cycle
-const unsigned long MIN_TIME_BETWEEN_MS  = 30UL * 60UL * 1000UL; // 30 minutes between cycles
+const char PUMP_PMW_STRENGTH = 255; //128; // Value from 0 to 255 to control the pump speed using PWM.
+const unsigned long MAX_PUMP_ON_MS = 10UL * 1000UL; // 10 seconds max per cycle
 
 // -------------------- State --------------------
 bool pumpOn = false;
@@ -52,6 +51,16 @@ unsigned long lastWaterMs = 0;
 unsigned long lastSampleMs = 0;
 
 ArduinoLEDMatrix matrix;
+
+enum class State {
+  Loop,
+  Read,
+  EnablePump,
+  DisablePump,
+  Error,
+};
+
+State currentState;
 
 void setup() {
   // temporary
@@ -90,89 +99,93 @@ void setup() {
   };
   */
 
+  currentState = State::Loop;
+
   matrix.begin();
   matrix.renderBitmap(frame, 8, 12);
   Serial.begin(9600);
 }
 
-float clampf(float x, float a, float b) {
-  if (x < a) return a;
-  if (x > b) return b;
-  return x;
-}
-
 void pumpSet(bool on) {
   pumpOn = on;
 
-  // analogWrite(PUMP_MOTOR, on ? PUMP_PMW_STRENGTH : LOW); // TODO: Validate this arduino board is active low or active high
-
-  digitalWrite(ENABLE, pumpOn ? HIGH : LOW); // enable on
-  digitalWrite(DIRA,HIGH); //one way
-  digitalWrite(DIRB,LOW);
+  analogWrite(ENABLE, pumpOn ? PUMP_PMW_STRENGTH : LOW); // enable on
+  digitalWrite(DIRA,LOW); //one way
+  digitalWrite(DIRB,HIGH);
 
   if (on) pumpStartMs = millis();
 }
 
+float getMoistPct(int raw) {
+  return (float)(raw - MOISTURE_DRY) / (MOISTURE_WET - MOISTURE_DRY); // Derived from lerp equation to get moisture pct
+}
+
 void loop() {
-  unsigned long now = millis(); 
+  unsigned long now = millis();
 
-  if (now - lastSampleMs <= SENSOR_SAMPLE_MS) return;
+  switch (currentState) {
+    case State::Loop: {
+        if (now - lastSampleMs <= SENSOR_SAMPLE_MS) return;
 
-  lastSampleMs = now;
-
-  // Read moisture
-  int rawMoist = analogRead(MOISTURE_READ);
-  int moistPct = (1.0f - ((float) rawMoist / 477)) * 100; //moisturePercentFromRaw(rawMoist); Will need to work w/ Sensor to get this part coded.
-
-  // Read temperature
-  float tempC = 0; //sensors.getTempCByIndex(0); Call temperature library from here .
-
-  bool tempValid = (tempC > -50.0 && tempC < 80.0); // Check if the sensor read a temperature that makes sense.
-
-  float adj = 0; //tempValid ? tempThresholdAdjust(tempC) : 0.0f; // Get temperature adjustment for the moisture levels based on temperature
-
-  // Adjust on and off thresholds based on the current temperature
-  float onTh  = clampf(ON_THRESHOLD_BASE  + adj, 5.0f, 80.0f);
-  float offTh = clampf(OFF_THRESHOLD_BASE + adj, onTh + 2.0f, 95.0f);
-
-  int rawWaterPresent = analogRead(WATER_READ);
-  bool waterPresent = true; // TEMPORARY OVERRIDE //rawWaterPresent >= WATER_THRESHOLD;
-
-    // Decision logic
-  if (!pumpOn) {
-    bool allowedByCooldown = true; //(now - lastWaterMs) >= MIN_TIME_BETWEEN_MS;
-    bool tooDry = (moistPct <= onTh);
-
-    if (allowedByCooldown && tooDry && waterPresent) {
-      pumpSet(true);
-      Serial.println("PUMP ON"); // debug
+        currentState = State::Read;
+        break;
     }
-  } else {
-    bool reachedOff = (moistPct >= offTh); // Need to make sure there is water present to pump!
-    bool timedOut = (now - pumpStartMs) >= MAX_PUMP_ON_MS;
+    case State::Read: {
+      lastSampleMs = now;
 
-    if (reachedOff || timedOut || !waterPresent) {
+      // Read moisture
+      int rawMoist = analogRead(MOISTURE_READ);
+      float moistPct = getMoistPct(rawMoist);
+
+      // Read temperature
+      float tempC = 0; //sensors.getTempCByIndex(0); Call temperature library from here .    
+
+      int rawWaterPresent = analogRead(WATER_READ);
+      bool waterPresent = true; // TEMPORARY OVERRIDE //rawWaterPresent >= WATER_THRESHOLD;
+
+      bool pumpCdExceeded = now - pumpStartMs > MAX_PUMP_ON_MS;
+
+      if (!pumpOn && waterPresent && moistPct <= ON_THRESHOLD_BASE) {
+        currentState = State::EnablePump;
+        break;
+      } else if (pumpOn && (!waterPresent || moistPct >= OFF_THRESHOLD_BASE || pumpCdExceeded)) {
+        currentState = State::DisablePump;
+        break;
+      } else if (!waterPresent) {
+        currentState = State::Error;
+        break;
+      }
+
+      currentState = State::Loop;
+
+      // Debug output
+      Serial.print("rawMoist=");
+      Serial.print(rawMoist);
+      Serial.print(" moist%=");
+      Serial.print(moistPct, 1);
+
+      Serial.print(" tempC=");
+      // if (tempValid) Serial.print(tempC, 1);
+      // else Serial.print("NA");
+
+      Serial.print(" pumpOn=");
+      Serial.println(pumpOn ? "YES" : "NO");
+
+      break;
+    }
+    case State::EnablePump: {
+      pumpSet(true);
+      currentState = State::Loop;
+      break;
+    }
+    case State::DisablePump: {
       pumpSet(false);
-      lastWaterMs = now;
-      Serial.println("PUMP OFF"); // debug
+      currentState = State::Loop;
+      break;
+    }
+    case State::Error: {
+        Serial.print("ERROR! NO WATER PRESENT!!");
+        break;
     }
   }
-
-    // Debug output
-  Serial.print("rawMoist=");
-  Serial.print(rawMoist);
-  Serial.print(" moist%=");
-  Serial.print(moistPct, 1);
-
-  Serial.print(" tempC=");
-  if (tempValid) Serial.print(tempC, 1);
-  else Serial.print("NA");
-
-  Serial.print(" onTh=");
-  Serial.print(onTh, 1);
-  Serial.print(" offTh=");
-  Serial.print(offTh, 1);
-
-  Serial.print(" pumpOn=");
-  Serial.println(pumpOn ? "YES" : "NO");
 }
