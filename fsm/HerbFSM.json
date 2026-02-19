@@ -1,0 +1,136 @@
+{
+  "nodes": [
+    {
+      "x": 488,
+      "y": 139,
+      "text": "Init",
+      "isAcceptState": false,
+      "textOnly": false
+    },
+    {
+      "x": 731,
+      "y": 321,
+      "text": "Read ",
+      "isAcceptState": false,
+      "textOnly": false
+    },
+    {
+      "x": 615,
+      "y": 390,
+      "text": "Enable Pump",
+      "isAcceptState": false,
+      "textOnly": false
+    },
+    {
+      "x": 853,
+      "y": 390,
+      "text": "Disable Pump",
+      "isAcceptState": false,
+      "textOnly": false
+    },
+    {
+      "x": 731,
+      "y": 139,
+      "text": "Loop",
+      "isAcceptState": false,
+      "textOnly": false
+    },
+    {
+      "x": 731,
+      "y": 514,
+      "text": "Error",
+      "isAcceptState": false,
+      "textOnly": false
+    }
+  ],
+  "links": [
+    {
+      "type": "StartLink",
+      "node": 0,
+      "text": "Entry",
+      "deltaX": -100,
+      "deltaY": 0
+    },
+    {
+      "type": "Link",
+      "nodeA": 1,
+      "nodeB": 2,
+      "text": "Water Threshold Low & Water Present & Pump Off & Pump CD done",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.3942115391872,
+      "perpendicularPart": 26.7520475872655
+    },
+    {
+      "type": "Link",
+      "nodeA": 1,
+      "nodeB": 3,
+      "text": "Pump On & (!Water Present | Pump on Too long | Water Threshold High)",
+      "lineAngleAdjust": 3.14159265358979,
+      "parallelPart": 0.49288067452119,
+      "perpendicularPart": -26.4450805633383
+    },
+    {
+      "type": "Link",
+      "nodeA": 0,
+      "nodeB": 4,
+      "text": "",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.5,
+      "perpendicularPart": 0
+    },
+    {
+      "type": "SelfLink",
+      "node": 4,
+      "text": "Last Update \u003C 1000 ms",
+      "anchorAngle": -2.06473769571448
+    },
+    {
+      "type": "Link",
+      "nodeA": 4,
+      "nodeB": 1,
+      "text": "Last Update \u003E= 1000 ms",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.5,
+      "perpendicularPart": 0
+    },
+    {
+      "type": "Link",
+      "nodeA": 5,
+      "nodeB": 4,
+      "text": "",
+      "lineAngleAdjust": 3.14159265358979,
+      "parallelPart": 0.632540884724578,
+      "perpendicularPart": 41.8747695153311
+    },
+    {
+      "type": "Link",
+      "nodeA": 2,
+      "nodeB": 4,
+      "text": "",
+      "lineAngleAdjust": 3.14159265358979,
+      "parallelPart": 0.329806296349582,
+      "perpendicularPart": -41.0439329408006
+    },
+    {
+      "type": "Link",
+      "nodeA": 3,
+      "nodeB": 4,
+      "text": "Water  Present",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.529010720934712,
+      "perpendicularPart": 43.9624871458386
+    },
+    {
+      "type": "Link",
+      "nodeA": 1,
+      "nodeB": 5,
+      "text": "No Water",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.5,
+      "perpendicularPart": 0
+    }
+  ],
+  "nodeRadius": 30,
+  "canvasWidth": 1500,
+  "canvasHeight": 600
+}
