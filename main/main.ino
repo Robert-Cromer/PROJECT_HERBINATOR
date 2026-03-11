@@ -1,19 +1,18 @@
 #include "Arduino_LED_Matrix.h"
+#include <Servo.h>
 
 // Import drivers for sensors?
 
 // Temporary motor pins
 
-const int ENABLE = 5;
-const int DIRA = 3;
-const int DIRB = 4;
-
 // -------------------- Pins --------------------
-const int PUMP_MOTOR = 10; //D10, PWM
+const int PUMP_MOTOR = 10; //D10
 const int WATER_HIGH = 0; //D0
 const int WATER_READ = 5; //A5
 const int MOISTURE_READ = 0; //A0
 const int TEMP_READ = 1; //A1
+
+Servo pump; // Pump uses PPM signal, so it needs to use the servo library
 
 // How frequently we want to sample the sensors
 // Essentially our clock cycle time, which recall is the inverse of frequency.
@@ -31,7 +30,7 @@ const int MOISTURE_WET = 210; // Read from A0 with moisture sensor in damp soil/
 // Base thresholds (in % moisture)
 const float ON_THRESHOLD_BASE  = 0.25;  // water when moisture drops below this
 const float OFF_THRESHOLD_BASE = 0.75;  // stop when moisture rises above this, too wet!
-const int WATER_THRESHOLD = 0; // Threshold for when we detect current going thru the water to verify that the water is in the container.
+const int WATER_THRESHOLD = 100; // Threshold for when we detect current going thru the water to verify that the water is in the container.
 
 // Temperature adjustment (simple, practical)
 // Hotter -> water sooner (raise thresholds slightly) and/or water a bit longer
@@ -41,7 +40,7 @@ const float COLD_TEMP_C = 12.0;
 const float TEMP_ADJUST_MAX = 7.0; // max +/- percent points added/subtracted
 
 // Pump timing safety
-const char PUMP_PMW_STRENGTH = 255; //128; // Value from 0 to 255 to control the pump speed using PWM.
+const char PUMP_ON_DEGREE = 0; // Value from 0 to 80 describing the speed of the pump. 0 fastest 80 slowest.
 const unsigned long MAX_PUMP_ON_MS = 10UL * 1000UL; // 10 seconds max per cycle
 
 // -------------------- State --------------------
@@ -63,13 +62,10 @@ enum class State {
 State currentState;
 
 void setup() {
-  // temporary
-  pinMode(ENABLE,OUTPUT);
-  pinMode(DIRA,OUTPUT);
-  pinMode(DIRB,OUTPUT);
+  pump.attach(PUMP_MOTOR);
 
   // put your setup code here, to run once:
-  pinMode(PUMP_MOTOR, OUTPUT);
+  //pinMode(PUMP_MOTOR, OUTPUT);
   pinMode(WATER_HIGH, OUTPUT);
   digitalWrite(WATER_HIGH, HIGH);
   
@@ -109,9 +105,8 @@ void setup() {
 void pumpSet(bool on) {
   pumpOn = on;
 
-  analogWrite(ENABLE, pumpOn ? PUMP_PMW_STRENGTH : LOW); // enable on
-  digitalWrite(DIRA,LOW); //one way
-  digitalWrite(DIRB,HIGH);
+  //analogWrite(PUMP_MOTOR, pumpOn ? PUMP_ON_DEGREE : LOW); // enable on
+  pump.write(pumpOn ? PUMP_ON_DEGREE : 90); // 90 deg is off
 
   if (on) pumpStartMs = millis();
 }
@@ -141,7 +136,7 @@ void loop() {
       float tempC = 0; //sensors.getTempCByIndex(0); Call temperature library from here .    
 
       int rawWaterPresent = analogRead(WATER_READ);
-      bool waterPresent = true; // TEMPORARY OVERRIDE //rawWaterPresent >= WATER_THRESHOLD;
+      bool waterPresent = rawWaterPresent >= WATER_THRESHOLD;
 
       bool pumpCdExceeded = now - pumpStartMs > MAX_PUMP_ON_MS;
 
@@ -161,6 +156,8 @@ void loop() {
       // Debug output
       Serial.print("rawMoist=");
       Serial.print(rawMoist);
+      Serial.print(" rawWater=");
+      Serial.print(rawWaterPresent);
       Serial.print(" moist%=");
       Serial.print(moistPct, 1);
 
@@ -184,7 +181,8 @@ void loop() {
       break;
     }
     case State::Error: {
-        Serial.print("ERROR! NO WATER PRESENT!!");
+        Serial.println("ERROR! NO WATER PRESENT!!");
+        currentState = State::Loop;
         break;
     }
   }
