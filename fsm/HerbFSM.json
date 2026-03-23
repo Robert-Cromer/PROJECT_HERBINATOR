@@ -1,44 +1,93 @@
 {
   "nodes": [
     {
-      "x": 488,
-      "y": 139,
+      "x": 263,
+      "y": 158,
       "text": "Init",
       "isAcceptState": false,
       "textOnly": false
     },
     {
-      "x": 731,
-      "y": 321,
+      "x": 818,
+      "y": 317,
       "text": "Read ",
       "isAcceptState": false,
       "textOnly": false
     },
     {
-      "x": 615,
-      "y": 390,
+      "x": 550,
+      "y": 529,
       "text": "Enable Pump",
       "isAcceptState": false,
       "textOnly": false
     },
     {
-      "x": 853,
-      "y": 390,
+      "x": 1116,
+      "y": 529,
       "text": "Disable Pump",
       "isAcceptState": false,
       "textOnly": false
     },
     {
-      "x": 731,
-      "y": 139,
+      "x": 729,
+      "y": 158,
       "text": "Loop",
       "isAcceptState": false,
       "textOnly": false
     },
     {
-      "x": 731,
-      "y": 514,
+      "x": 934,
+      "y": 529,
       "text": "Error",
+      "isAcceptState": false,
+      "textOnly": false
+    },
+    {
+      "x": 749,
+      "y": 529,
+      "text": "Critical Error",
+      "isAcceptState": false,
+      "textOnly": false
+    },
+    {
+      "x": 874,
+      "y": 818,
+      "text": "Communicate",
+      "isAcceptState": false,
+      "textOnly": false
+    },
+    {
+      "x": 457,
+      "y": 158,
+      "text": "Main Loop",
+      "isAcceptState": false,
+      "textOnly": false
+    },
+    {
+      "x": 303,
+      "y": 902,
+      "text": "Prompt Dry",
+      "isAcceptState": false,
+      "textOnly": false
+    },
+    {
+      "x": 483,
+      "y": 1175,
+      "text": "Prompt Wet",
+      "isAcceptState": false,
+      "textOnly": false
+    },
+    {
+      "x": 854,
+      "y": 1154,
+      "text": "Done",
+      "isAcceptState": false,
+      "textOnly": false
+    },
+    {
+      "x": 218,
+      "y": 645,
+      "text": "Red Flash",
       "isAcceptState": false,
       "textOnly": false
     }
@@ -64,19 +113,10 @@
       "type": "Link",
       "nodeA": 1,
       "nodeB": 3,
-      "text": "Pump On & (!Water Present | Pump on Too long | Water Threshold High)",
+      "text": "Pump On & (Pump on Too long | Water Threshold High)",
       "lineAngleAdjust": 3.14159265358979,
       "parallelPart": 0.49288067452119,
       "perpendicularPart": -26.4450805633383
-    },
-    {
-      "type": "Link",
-      "nodeA": 0,
-      "nodeB": 4,
-      "text": "",
-      "lineAngleAdjust": 0,
-      "parallelPart": 0.5,
-      "perpendicularPart": 0
     },
     {
       "type": "SelfLink",
@@ -89,36 +129,9 @@
       "nodeA": 4,
       "nodeB": 1,
       "text": "Last Update \u003E= 1000 ms",
-      "lineAngleAdjust": 0,
-      "parallelPart": 0.5,
-      "perpendicularPart": 0
-    },
-    {
-      "type": "Link",
-      "nodeA": 5,
-      "nodeB": 4,
-      "text": "",
       "lineAngleAdjust": 3.14159265358979,
-      "parallelPart": 0.632540884724578,
-      "perpendicularPart": 41.8747695153311
-    },
-    {
-      "type": "Link",
-      "nodeA": 2,
-      "nodeB": 4,
-      "text": "",
-      "lineAngleAdjust": 3.14159265358979,
-      "parallelPart": 0.329806296349582,
-      "perpendicularPart": -41.0439329408006
-    },
-    {
-      "type": "Link",
-      "nodeA": 3,
-      "nodeB": 4,
-      "text": "Water  Present",
-      "lineAngleAdjust": 0,
-      "parallelPart": 0.529010720934712,
-      "perpendicularPart": 43.9624871458386
+      "parallelPart": 0.792452830188679,
+      "perpendicularPart": -32.4499614791759
     },
     {
       "type": "Link",
@@ -128,9 +141,153 @@
       "lineAngleAdjust": 0,
       "parallelPart": 0.5,
       "perpendicularPart": 0
+    },
+    {
+      "type": "Link",
+      "nodeA": 1,
+      "nodeB": 6,
+      "text": "Sensor Failure",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.5,
+      "perpendicularPart": 0
+    },
+    {
+      "type": "Link",
+      "nodeA": 5,
+      "nodeB": 3,
+      "text": "",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.5,
+      "perpendicularPart": 0
+    },
+    {
+      "type": "Link",
+      "nodeA": 2,
+      "nodeB": 7,
+      "text": "",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.599653883526133,
+      "perpendicularPart": 43.8413401884121
+    },
+    {
+      "type": "Link",
+      "nodeA": 3,
+      "nodeB": 7,
+      "text": "",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.649832749902762,
+      "perpendicularPart": -79.93970919502
+    },
+    {
+      "type": "Link",
+      "nodeA": 0,
+      "nodeB": 8,
+      "text": "",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.5,
+      "perpendicularPart": 0
+    },
+    {
+      "type": "Link",
+      "nodeA": 8,
+      "nodeB": 4,
+      "text": "Watering Mode",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.5,
+      "perpendicularPart": 0
+    },
+    {
+      "type": "Link",
+      "nodeA": 7,
+      "nodeB": 8,
+      "text": "",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.567242317397619,
+      "perpendicularPart": -300.180600354424
+    },
+    {
+      "type": "SelfLink",
+      "node": 9,
+      "text": "Wait for btn press",
+      "anchorAngle": 0.608343125372467
+    },
+    {
+      "type": "Link",
+      "nodeA": 9,
+      "nodeB": 10,
+      "text": "Btn press",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.333966379446181,
+      "perpendicularPart": 30.9058877837585
+    },
+    {
+      "type": "SelfLink",
+      "node": 10,
+      "text": "Wait for btn press",
+      "anchorAngle": -0.646987721240896
+    },
+    {
+      "type": "Link",
+      "nodeA": 11,
+      "nodeB": 7,
+      "text": "",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.466922690463823,
+      "perpendicularPart": 28.0135894006234
+    },
+    {
+      "type": "Link",
+      "nodeA": 10,
+      "nodeB": 11,
+      "text": "Success",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.505882352941176,
+      "perpendicularPart": 24
+    },
+    {
+      "type": "SelfLink",
+      "node": 8,
+      "text": "Button held",
+      "anchorAngle": -2.23676556417401
+    },
+    {
+      "type": "Link",
+      "nodeA": 12,
+      "nodeB": 9,
+      "text": "",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.5,
+      "perpendicularPart": 0
+    },
+    {
+      "type": "Link",
+      "nodeA": 8,
+      "nodeB": 12,
+      "text": "btn held \u003E 3000 ms",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.873731929786262,
+      "perpendicularPart": 58.9146403273248
+    },
+    {
+      "type": "Link",
+      "nodeA": 6,
+      "nodeB": 7,
+      "text": "",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.294404211970226,
+      "perpendicularPart": 40.0953296133238
+    },
+    {
+      "type": "Link",
+      "nodeA": 7,
+      "nodeB": 6,
+      "text": "Process error",
+      "lineAngleAdjust": 0,
+      "parallelPart": 0.47900066568495,
+      "perpendicularPart": 14.0278075962021
     }
   ],
-  "nodeRadius": 30,
+  "nodeRadius": 60,
   "canvasWidth": 1500,
-  "canvasHeight": 600
+  "canvasHeight": 1500
 }
