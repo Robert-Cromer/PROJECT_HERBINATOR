@@ -89,11 +89,11 @@ const int MIN_RAW_MOIST = 15; // Minimum moisture necessary to ensure proper sen
 // High VPD (> VPD_HIGH_KPA) -> high demand -> water sooner  (raise ON threshold)
 const float VPD_LOW_KPA    = 0.4f;  // kPa — minimal evaporative stress
 const float VPD_HIGH_KPA   = 1.2f;  // kPa — high evaporative stress
-const float VPD_ADJUST_MAX = 0.07f; // max ± adjustment applied to ON_THRESHOLD_BASE (fraction)
+const float VPD_ADJUST_MAX = 0.15f; // max ± adjustment applied to ON_THRESHOLD_BASE (fraction)
 
 // Pump timing safety
 const char PUMP_ON_DEGREE = 0; // Value from 0 to 80 describing the speed of the pump. 0 fastest 80 slowest.
-const unsigned long MAX_PUMP_ON_MS = 60UL * 1000UL; // 60 seconds max per cycle
+const unsigned long MAX_PUMP_ON_MS = 120UL * 1000UL; // 120 seconds max per cycle
 
 // -------------------- State --------------------
 bool pumpOn = false;
@@ -111,6 +111,7 @@ int moistureWet = 0;
 const unsigned int SENSOR_WET_ADDRESS = 0; //Addresses 0 through 3
 const unsigned int SENSOR_DRY_ADDRESS = 4; //Addresses 4 through 7
 const unsigned int PUMP_CD_MINS = 5; // 5 minute failsafe!
+const unsigned long MIN_PUMP_CD = 1000UL; //1 Second 
 const unsigned long PUMP_CD_MILLIS = (unsigned long)PUMP_CD_MINS * 60UL * 1000UL;
 const unsigned int TEMP_READ_FAIL_THRESHOLD = 10; // 10 Times allowed before failure is flagged!
 
@@ -210,9 +211,6 @@ void setup() {
 
   EEPROM.get(SENSOR_WET_ADDRESS, moistureWet);
   EEPROM.get(SENSOR_DRY_ADDRESS, moistureDry);
-
-  Serial.println(moistureDry);
-
   disableLEDS();
 }
 
@@ -231,9 +229,12 @@ void pumpSet(bool on) {
   //analogWrite(PUMP_MOTOR, pumpOn ? PUMP_ON_DEGREE : LOW); // enable on
   pump.write(pumpOn ? PUMP_ON_DEGREE : 90); // 90 deg is off
 
-  if (on) pumpStartMs = millis();
+  if (on) {
+    pumpStartMs = millis();
+  } else {
+    lastWaterMs = millis();
+  }
 }
-
 int flashBegin = 0;
 bool lastBtnDown = false;
 unsigned long pumpOffCDTime = 0;    // millis() timestamp when pump cooldown ends
@@ -267,6 +268,8 @@ bool readDHT() {
     float tempC = 0;
     float humidity = 0;
     bool readSuccess = dht_sensor.measure(&tempC, &humidity);
+
+    //tempC -= 4;
     
     if (readSuccess) {
       tempSensorFail = false;
@@ -470,6 +473,15 @@ void loop() {
       int rawWaterPresent = analogRead(WATER_READ);
       bool waterPresent = true; //rawWaterPresent >= WATER_THRESHOLD;
 
+      // Debug output
+      Serial.print("rawMoist=");   Serial.print(rawMoist);
+      Serial.print(" moist%=");    Serial.print(moistPct, 2);
+      Serial.print(" onThresh=");  Serial.print(onThreshold, 2);
+      Serial.print(" tempC=");     Serial.print(lastTempC, 1);
+      Serial.print(" hum%=");      Serial.print(lastHumidity, 1);
+      Serial.print(" vpd=");       Serial.print(computeVPD(lastTempC, lastHumidity), 3);
+      Serial.print(" dhtOK=");     Serial.println(readSuccess ? "YES" : "NO");
+
       // ── No water → Error ──
       if (!waterPresent) {
         currentState = State::NoWater;
@@ -482,14 +494,7 @@ void loop() {
         break;
       }
 
-      // Debug output
-      Serial.print("rawMoist=");   Serial.print(rawMoist);
-      Serial.print(" moist%=");    Serial.print(moistPct, 2);
-      Serial.print(" onThresh=");  Serial.print(onThreshold, 2);
-      Serial.print(" tempC=");     Serial.print(lastTempC, 1);
-      Serial.print(" hum%=");      Serial.print(lastHumidity, 1);
-      Serial.print(" vpd=");       Serial.print(computeVPD(lastTempC, lastHumidity), 3);
-      Serial.print(" dhtOK=");     Serial.println(readSuccess ? "YES" : "NO");
+      if (now - lastWaterMs < MIN_PUMP_CD) break;
 
       currentState = State::MainLoop;
       break;
@@ -516,6 +521,7 @@ void loop() {
       float moistPct = readMoistureSensor(&rawMoist);
 
       readDHT(); // Read temp to find failure
+      Serial.print(" moist%=");    Serial.println(moistPct, 2);
 
       bool pumpTooLong = (now - pumpStartMs) > MAX_PUMP_ON_MS;
 
