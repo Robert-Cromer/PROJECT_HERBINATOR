@@ -89,7 +89,7 @@ const int MIN_RAW_MOIST = 15; // Minimum moisture necessary to ensure proper sen
 // High VPD (> VPD_HIGH_KPA) -> high demand -> water sooner  (raise ON threshold)
 const float VPD_LOW_KPA    = 0.4f;  // kPa — minimal evaporative stress
 const float VPD_HIGH_KPA   = 1.2f;  // kPa — high evaporative stress
-const float VPD_ADJUST_MAX = 0.15f; // max ± adjustment applied to ON_THRESHOLD_BASE (fraction)
+const float VPD_ADJUST_MAX = 0.1f; // max ± adjustment applied to ON_THRESHOLD_BASE (fraction)
 
 // Pump timing safety
 const char PUMP_ON_DEGREE = 0; // Value from 0 to 80 describing the speed of the pump. 0 fastest 80 slowest.
