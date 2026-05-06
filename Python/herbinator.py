@@ -28,7 +28,7 @@ def send_command(endpoint, method="GET", data=None):
         return None
 
 
-# display water level and manually water, water level reads as a percentage of total capacity
+# display water level and manually water, water level reads as a percentage of total capacity :)
 def herbinator_water():
     send_command("water", method="POST")
 
