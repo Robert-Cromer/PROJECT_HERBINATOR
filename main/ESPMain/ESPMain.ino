@@ -1,12 +1,15 @@
-#include <ESP32Servo.h>
-#include <analogWrite.h>
-#include <tone.h>
-#include <ESP32Tone.h>
-#include <ESP32PWM.h>
+/**
+ * ESPMain.ino
+ * Brain for ESP Herbinator units. Uses a FSM to read sensor data
+ * and decide when to water the plant.
+ *
+ * Author: Landon Wardle
+ */
 
-#include "dht_nonblocking.h"
-//#include <EEPROM.h>
-#define DHT_SENSOR_TYPE DHT_TYPE_11
+#include <DHT11.h>
+#include <ESP32Servo.h>
+#include <ESP32PWM.h>
+#include <EEPROM.h>
 
 // Enum declarations must come before any function definitions so that the
 // Arduino IDE's auto-generated forward declarations can reference these types.
@@ -53,18 +56,23 @@ enum class LEDColor {
 // Temporary motor pins
 
 // -------------------- Pins --------------------
-const int PUMP_MOTOR = 10; //D10
-const int WATER_HIGH = 0; //D0
-const int WATER_READ = 5; //A5
-const int MOISTURE_READ = 0; //A0
-const int TEMP_READ = 1; //A1
-const int DHT_SENSOR_PIN = 8; //D8
-const int GREEN_LED = 5; //D5
-const int BLUE_LED = 6; //D6
-const int RED_LED = 7; //D7
-const int BUTTON = 13; //D13
+// ESP 32 pins
+const int PUMP_MOTOR = 7;
+const int WATER_HIGH = 0;
+const int WATER_READ = 10;
+const int MOISTURE_READ = 4;
+const int DHT_SENSOR_PIN = 5;
+const int GREEN_LED = 13;
+const int BLUE_LED = 12;
+const int RED_LED = 11;
+const int BUTTON = 6;
 
-Servo pump; // Pump uses PPM signal, so it needs to use the servo library
+// The max value the Microcontroller can read of an analog signal
+// Used for verifying if the recorded moisture calibration is legit
+const int ANALOG_MAX = 4096;
+
+// Pump uses PPM signal, so it needs to use the servo library
+Servo pump;
 
 // How frequently we want to sample the sensors
 // Essentially our clock cycle time, which recall is the inverse of frequency.
@@ -114,6 +122,7 @@ int moistureWet = 0;
 
 const unsigned int SENSOR_WET_ADDRESS = 0; //Addresses 0 through 3
 const unsigned int SENSOR_DRY_ADDRESS = 4; //Addresses 4 through 7
+const unsigned int EEPROM_SIZE = 8; // Size of the memory
 const unsigned int PUMP_CD_MINS = 5; // 5 minute failsafe!
 const unsigned long MIN_PUMP_CD = 1000UL; //1 Second 
 const unsigned long PUMP_CD_MILLIS = (unsigned long)PUMP_CD_MINS * 60UL * 1000UL;
@@ -122,8 +131,7 @@ const unsigned int TEMP_READ_FAIL_THRESHOLD = 10; // 10 Times allowed before fai
 const int calibrationHoldMs = 2000;
 int btnDown = 0;
 
-ArduinoLEDMatrix matrix;
-DHT_nonblocking dht_sensor( DHT_SENSOR_PIN, DHT_SENSOR_TYPE );
+DHT11 dht_sensor(DHT_SENSOR_PIN);
 
 // -------------------- VPD Helpers --------------------
 
@@ -187,9 +195,8 @@ void enableLEDS() {
 
 void setup() {
   pump.attach(PUMP_MOTOR);
+  EEPROM.begin(EEPROM_SIZE);
 
-  // put your setup code here, to run once:
-  //pinMode(PUMP_MOTOR, OUTPUT);
   pinMode(WATER_HIGH, OUTPUT);
   digitalWrite(WATER_HIGH, HIGH);
   
@@ -272,17 +279,16 @@ int readFailCount = 0;
 bool tempSensorFail = false;
 
 bool readDHT() {
-    float tempC = 0;
-    float humidity = 0;
-    bool readSuccess = dht_sensor.measure(&tempC, &humidity);
-
-    //tempC -= 4;
+    int tempC = 0;
+    int humidity = 0;
     
-    if (readSuccess) {
+    int readSuccess = dht_sensor.readTemperatureHumidity(tempC, humidity);
+    
+    if (readSuccess == 0) {
       tempSensorFail = false;
       readFailCount = 0; // Reset
-      lastTempC = tempC;
-      lastHumidity = humidity;
+      lastTempC = static_cast<float>(tempC);
+      lastHumidity = static_cast<float>(humidity);
     } else {
       readFailCount++;
 
@@ -361,7 +367,7 @@ void loop() {
       }
 
       // Bad calibration values → force recalibration
-      validCalibration = moistureWet >= 0 && moistureDry <= 1024 && moistureWet < moistureDry;
+      validCalibration = moistureWet >= 0 && moistureDry <= ANALOG_MAX && moistureWet < moistureDry;
 
       if (!validCalibration) {
         Serial.println("Bad calibration values!");
@@ -439,13 +445,14 @@ void loop() {
           Serial.println(wrote);
           currentState = State::CalibrationButtonYield;
         } else {
-          // preButtonState == State::PromptWet
           EEPROM.put(SENSOR_WET_ADDRESS, wrote);
           moistureWet = wrote;
           Serial.print("Wet=");
           Serial.println(wrote);
           currentState = State::CalibrationDone;
         }
+        // Save changes
+        EEPROM.commit();
       }
       // else: still holding, stay in ButtonPressed
       break;
