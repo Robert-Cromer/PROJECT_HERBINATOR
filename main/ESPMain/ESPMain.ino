@@ -1,3 +1,8 @@
+#include <HTTP_Method.h>
+#include <Middlewares.h>
+#include <Uri.h>
+#include <WebServer.h>
+
 /**
  * ESPMain.ino
  * Brain for ESP Herbinator units. Uses a FSM to read sensor data
@@ -10,6 +15,16 @@
 #include <ESP32Servo.h>
 #include <ESP32PWM.h>
 #include <EEPROM.h>
+
+/**
+ * Store last value for:
+ * Temperature
+ * Moisture
+ * Humidity
+ * State 
+ * Time (Full timestamp)
+ * Unit name
+*/
 
 // Enum declarations must come before any function definitions so that the
 // Arduino IDE's auto-generated forward declarations can reference these types.
@@ -77,6 +92,9 @@ Servo pump;
 // How frequently we want to sample the sensors
 // Essentially our clock cycle time, which recall is the inverse of frequency.
 const unsigned long SENSOR_SAMPLE_MS = 1000UL; // read sensors every 1s
+
+//TODO: Write docs
+const int WATER_LOOP_MS = 5000UL;
 
 // -------------------- Moisture Calibration --------------------
 // You MUST calibrate these for your sensor + soil:
@@ -194,6 +212,8 @@ void enableLEDS() {
 }
 
 void setup() {
+  dht_sensor.setDelay(SENSOR_SAMPLE_MS);
+
   pump.attach(PUMP_MOTOR);
   EEPROM.begin(EEPROM_SIZE);
 
@@ -266,7 +286,11 @@ void beginRedFlash() {
 }
 
 bool canReadSensors() {
-  bool canRead = (now - lastSampleMs >= SENSOR_SAMPLE_MS);
+  return canReadSensors(SENSOR_SAMPLE_MS);
+}
+
+bool canReadSensors(unsigned long delay) {
+  bool canRead = (now - lastSampleMs >= delay);
 
   if (canRead) {
     lastSampleMs = now;
@@ -490,7 +514,7 @@ void loop() {
       setLEDEnabled(LEDColor::Blue, false);
       setLEDEnabled(LEDColor::Red, false);
 
-      if (!canReadSensors()) break;
+      if (!canReadSensors(WATER_LOOP_MS)) break;
 
       // ── Sensor reads ──
       int rawMoist;
@@ -547,10 +571,9 @@ void loop() {
       int rawWaterPresent = analogRead(WATER_READ);
       bool waterPresent = rawWaterPresent >= WATER_THRESHOLD;
 
-      bool dhtOK = readDHT();
       printCSVRow("PumpOn", rawMoist, moistPct,
                   getAdjustedOnThreshold(lastTempC, lastHumidity),
-                  dhtOK, rawWaterPresent, waterPresent);
+                  false, rawWaterPresent, waterPresent);
 
       bool pumpTooLong = (now - pumpStartMs) > MAX_PUMP_ON_MS;
 
