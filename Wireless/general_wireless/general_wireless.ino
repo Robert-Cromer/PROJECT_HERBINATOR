@@ -3,6 +3,7 @@
 #include <WebServer.h> // web server utility for esp32
 #include <ESPmDNS.h> // map ip address to a name
 #include <time.h> // up to date time over NTP
+#include <ArduinoJson.h> // json formatting
 
 /*This file contains the code for the esp-32-s3 communications. This will eventually be put in the main file for the esp code*/
 #define MAX_CONNECT_ATTEMPTS 20
@@ -12,6 +13,8 @@
 //String ROUTER_PASSWORD = "herbinator";
 String ROUTER_NAME;
 String ROUTER_PASSWORD;
+// we can eventually make the dns name the herbinator name for identification
+// maybe even make a subnet for just herbinators to seperate from other network devices
 String mdnsName = "herbnet";
 // NTP server
 const char* ntpServer = "pool.ntp.org"; // atomic clock ntp pooler
@@ -25,7 +28,7 @@ WebServer server(80);
 String getString(String);
 void connect(String, String);
 String getTimeString();
-void handleRoot();
+void handleJson();
 void handleTime();
 
 void setup(){ // in the futire, this code may be moved to its own function so that we can do more with it on startup
@@ -44,7 +47,7 @@ void setup(){ // in the futire, this code may be moved to its own function so th
 
   connect(ROUTER_NAME, ROUTER_PASSWORD);
  
- 
+
   // mDNS name -> herbnet.local
   if (!MDNS.begin(mdnsName)) {
     Serial.println("mDNS start FAILED");
@@ -57,11 +60,12 @@ void setup(){ // in the futire, this code may be moved to its own function so th
   // Time
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 
-  // Web server
-  server.on("/", handleRoot);
+  // http server
+  // need to figure out if each sensor needs to get reread as a server, or if the variables update and a new json document is made for those.
+  server.on("/", handleJson);
   server.on("/time", handleTime);
   server.begin();
-  Serial.println("Herbnet started!");
+  Serial.println("Json Collection started!");
 
 }
 
@@ -98,12 +102,12 @@ String getString(String prompt){
 
 }
 
-// handle time requests to web page
+// handle time requests to JsonDocument
 void handleTime() {
   server.send(200, "text/plain", getTimeString());
 }
 
-// Format time for display
+// Formatted time for display
 String getTimeString() {
   struct tm timeinfo;
   if (!getLocalTime(&timeinfo)) {
@@ -114,22 +118,14 @@ String getTimeString() {
   return String(buf);
 }
 
-// Root page
-void handleRoot() {
-  String page = R"rawliteral(
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>ESP32 Local Time</title>
-  <meta http-equiv="refresh" content="1">
-</head>
-<body>
-  <h2>ESP32 Local Time</h2>
-  <p>)rawliteral" + getTimeString() + R"rawliteral(</p>
-</body>
-</html>
-)rawliteral";
-
-  server.send(200, "text/html", page);
+// Json packet
+void handleJson() {
+  JsonDocument doc;
+  doc["Temperature"] = 72;
+  doc["Moisture"] = 32;
+  doc["Humidity"] = 45;
+  doc["State"] = "On";
+  doc["Time"] = getTimeString();
+  server.send(200, "application/json", serializeJson(doc, Serial));
+  // maybe add a delay here
 }

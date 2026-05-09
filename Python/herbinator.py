@@ -6,7 +6,7 @@
 # Send updates to override existing behavior 
 import requests
 # herby should host an http server that has JSON data dynamically updated to be sent over the network to the client
-BASE_URL = "http://192.168.123.10"  # replace with herbinator's IP
+BASE_URL = "http://herbnet.local/"  # DNS address
 
 
 def send_command(endpoint, method="GET", data=None):
@@ -43,10 +43,9 @@ def unpause_herbinator():
     return send_command("resume", method="POST")
 
 # read the temperature off the sensor, give a recommendation based off the temperature
+# if state is off, or no connection, then commands should not process.
 def get_temperature():
-    state = get_herbinator_state()
-    if state:
-        return state.get("Temperature")
+    return send_command("Temperature")
 
 def get_herbinator_state():
     return send_command("State")
@@ -59,6 +58,3 @@ def get_humidity():
 
 def get_moisture():
     return send_command("Moisture")
-
-def get_name():
-    return send_command("Name")
