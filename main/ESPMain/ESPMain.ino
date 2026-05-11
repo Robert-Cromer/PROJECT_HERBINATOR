@@ -13,6 +13,8 @@
 #include <ESP32Servo.h>
 #include <ESP32PWM.h>
 #include <EEPROM.h>
+#include <SPI.h>
+#include <SD.h>
 
 /**
  * Store last value for:
@@ -80,6 +82,10 @@ const int GREEN_LED = 13;
 const int BLUE_LED = 12;
 const int RED_LED = 11;
 const int BUTTON = 6;
+const int SD_CS = 18;
+const int SD_MOSI = 8;
+const int SD_SCK = 3; // Clk
+const int SD_MISO = 46;
 
 /* The baud rate to the serial monitor. */
 const unsigned int BAUD_RATE = 9600;
@@ -104,6 +110,22 @@ const unsigned int INIT_DELAY_MS = 1000;
 
 /* How long to hold the calibration button to switch to calibration mode. */
 const unsigned int CALIBRATION_HOLD_MS = 2000;
+
+/* SD Settings ---------------------------------------------------------------------- */
+
+
+
+/* The reference to the filename to write logs to. */
+const char* LOG_FILENAME = "/herbinator_logs.txt";
+
+/* The header of the .csv file the logs write to. */
+const char* CSV_HEADER = "timestamp_ms,state,rawMoist,moist_pct,on_thresh,temp_c,humidity_pct,vpd_kpa,dht_ok,pump_on,water_raw,water_present";
+
+/* How long between each attempt at flushing the sensor data to the log file. */
+const unsigned long FLUSH_CYCLE_TIME = 30UL * 1000UL;
+
+/* The frequency the SD class operates at */
+const unsigned long SD_FREQUENCY = 4000000UL;
 
 /* Watering Settings -----------------------------------------------------------------*/
 
@@ -269,6 +291,15 @@ State currentState;
 /* Where ButtonPressed should return on early release */
 State preButtonState = State::PromptDry;
 
+/**
+ * SPI bus instance so we can pick the pins explicitly
+ * On the ESP32-S3 this maps to the FSPI/HSPI peripheral.
+ */
+SPIClass sdSPI(FSPI);
+
+/* Log File class. */
+File logFile;
+
 /* VPD Helpers ----------------------------------------------------------------- */
 
 
@@ -391,10 +422,31 @@ void setup() {
 
   currentState = State::MainLoop;
 
-  delay(INIT_DELAY_MS);
+  // SD setup
+  sdSPI.begin(SD_SCK, SD_MISO, SD_MOSI, SD_CS);
 
-  // CSV header — matches printCSVRow() column order
-  Serial.println("timestamp_ms,state,rawMoist,moist_pct,on_thresh,temp_c,humidity_pct,vpd_kpa,dht_ok,pump_on,water_raw,water_present");
+  bool sdSuccess = SD.begin(SD_CS, sdSPI, SD_FREQUENCY);
+
+  while (!sdSuccess) {
+    setLEDEnabled(LEDColor::Green, false);
+    setLEDEnabled(LEDColor::Blue, false);
+    setLEDEnabled(LEDColor::Red, true);
+
+    Serial.println("WARNING: SD Card failed to initialize! Please check wiring and if the SD is inserted!");
+    delay(INIT_DELAY_MS);
+  }
+
+  Serial.println("SD Card initialized!");
+
+  bool isNew = !SD.exists(LOG_FILENAME);
+  logFile = SD.open(LOG_FILENAME, FILE_APPEND);
+  if (isNew) logFile.println(CSV_HEADER);
+
+  if (!logFile) {
+    Serial.println("WARNING: Failure to open log file, continuing without logging!");
+  }
+
+  delay(INIT_DELAY_MS);
 
   // Load initial values
 
@@ -530,25 +582,38 @@ float readMoistureSensor(int *rawMoist) {
  */
 void printCSVRow(const char* state, const int rawMoist, const float moistPct, const float onThresh,
                  const bool dhtOK, const int rawWater, const bool waterPresent) {
-  Serial.print(millis());        Serial.print(',');
-  Serial.print(state);           Serial.print(',');
-  Serial.print(rawMoist);        Serial.print(',');
-  Serial.print(moistPct, 2);     Serial.print(',');
-  Serial.print(onThresh, 2);     Serial.print(',');
-  Serial.print(lastTempC, 1);    Serial.print(',');
-  Serial.print(lastHumidity, 1); Serial.print(',');
-  Serial.print(computeVPD(lastTempC, lastHumidity), 3); Serial.print(',');
-  Serial.print(dhtOK ? 1 : 0);  Serial.print(',');
-  Serial.print(pumpOn ? 1 : 0);  Serial.print(',');
-  Serial.print(rawWater);        Serial.print(',');
-  Serial.println(waterPresent ? 1 : 0);
+  if (!logFile) {
+    Serial.println("WARNING: Log file not open, cannot write CSV row!");
+    return;
+  }
+
+  logFile.print(millis());        logFile.print(',');
+  logFile.print(state);           logFile.print(',');
+  logFile.print(rawMoist);        logFile.print(',');
+  logFile.print(moistPct, 2);     logFile.print(',');
+  logFile.print(onThresh, 2);     logFile.print(',');
+  logFile.print(lastTempC, 1);    logFile.print(',');
+  logFile.print(lastHumidity, 1); logFile.print(',');
+  logFile.print(computeVPD(lastTempC, lastHumidity), 3); logFile.print(',');
+  logFile.print(dhtOK ? 1 : 0);  logFile.print(',');
+  logFile.print(pumpOn ? 1 : 0);  logFile.print(',');
+  logFile.print(rawWater);        logFile.print(',');
+  logFile.println(waterPresent ? 1 : 0);
 }
+
+static unsigned long last_flush = 0;
 
 /**
  * loop function that drives the FSM.
  */
 void loop() {
   now = millis();
+
+  if (logFile && millis() - last_flush > FLUSH_CYCLE_TIME) {
+    logFile.flush();
+    last_flush = millis();
+    Serial.println("Flushing buffer to SD card!");
+  }
 
   bool btnDownNow = isButtonDown();
   if (btnDownNow && btnDownNow != lastBtnDown) {
