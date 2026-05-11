@@ -267,6 +267,7 @@ unsigned long lastSampleMs = 0;
 unsigned long pumpOffCDTime = 0;
 unsigned long btnDown = 0;
 unsigned long now = 0;
+unsigned long stateEnteredMs = 0;
 
 unsigned int readFailCount = 0;
 unsigned long flashBegin = 0;
@@ -393,6 +394,19 @@ void enableLEDS() {
 }
 
 /**
+ * Transitions the FSM to a new state and records when it was entered.
+ * Logs the transition to serial for debugging.
+ *
+ * @param next the state to transition to.
+ */
+void transitionTo(const State next) {
+  currentState = next;
+  stateEnteredMs = millis();
+  Serial.print("Transition -> ");
+  Serial.println(stateNames[static_cast<int>(next)]);
+}
+
+/**
  * Called when the microcontroller initializes. Manages state initialization.
  */
 void setup() {
@@ -421,6 +435,7 @@ void setup() {
   setLEDEnabled(LEDColor::Red, true);
 
   currentState = State::MainLoop;
+  stateEnteredMs = millis();
 
   // SD setup
   sdSPI.begin(SD_SCK, SD_MISO, SD_MOSI, SD_CS);
@@ -500,7 +515,7 @@ bool isButtonDown() {
 void beginRedFlash() {
   disableLEDS();
   flashBegin = millis();
-  currentState = State::RedFlash;
+  transitionTo(State::RedFlash);
 }
 
 /**
@@ -621,14 +636,11 @@ void loop() {
   }
   lastBtnDown = btnDownNow;
 
-  // Debug function for printing the current state
-  //Serial.println(stateNames[(int) currentState]);
-
-  // Failure states
-  if (tempSensorFail) {
-    currentState = State::TempSensorFail;
-  } else if (moistureSensorFail) {
-    currentState = State::MoistureSensorFail;
+  // Failure states — preempt whatever state we were in
+  if (tempSensorFail && currentState != State::TempSensorFail) {
+    transitionTo(State::TempSensorFail);
+  } else if (moistureSensorFail && currentState != State::MoistureSensorFail) {
+    transitionTo(State::MoistureSensorFail);
   }
 
   switch (currentState) {
@@ -659,7 +671,7 @@ void loop() {
       }
 
       // Everything OK → enter watering mode
-      currentState = State::WaterLoop;
+      transitionTo(State::WaterLoop);
       break;
     }
 
@@ -670,7 +682,7 @@ void loop() {
 
       if (now - flashBegin > RED_FLASH_DURATION_MS) {
         disableLEDS();
-        currentState = State::PromptDry;
+        transitionTo(State::PromptDry);
       }
       break;
     }
@@ -685,7 +697,7 @@ void loop() {
 
       if (isButtonDown()) {
         preButtonState = State::PromptDry;
-        currentState = State::ButtonPressed;
+        transitionTo(State::ButtonPressed);
       }
       break;
     }
@@ -700,7 +712,7 @@ void loop() {
 
       if (isButtonDown()) {
         preButtonState = State::PromptWet;
-        currentState = State::ButtonPressed;
+        transitionTo(State::ButtonPressed);
       }
       break;
     }
@@ -713,7 +725,7 @@ void loop() {
     case State::ButtonPressed: {
       if (!isButtonDown()) {
         // Released too early — go back to the prompt
-        currentState = preButtonState;
+        transitionTo(preButtonState);
         break;
       }
 
@@ -726,13 +738,13 @@ void loop() {
           moistureDry = wrote;
           Serial.print("Dry=");
           Serial.println(wrote);
-          currentState = State::CalibrationButtonYield;
+          transitionTo(State::CalibrationButtonYield);
         } else {
           EEPROM.put(SENSOR_WET_ADDRESS, wrote);
           moistureWet = wrote;
           Serial.print("Wet=");
           Serial.println(wrote);
-          currentState = State::CalibrationDone;
+          transitionTo(State::CalibrationDone);
         }
         // Save changes
         EEPROM.commit();
@@ -748,7 +760,7 @@ void loop() {
       enableLEDS();
       if (isButtonDown()) break;
 
-      currentState = State::PromptWet;
+      transitionTo(State::PromptWet);
       break;
     }
 
@@ -761,7 +773,7 @@ void loop() {
       enableLEDS();   delay(CALIBRATION_DONE_DELAY_MS);
       disableLEDS();
 
-      currentState = State::MainLoop;
+      transitionTo(State::MainLoop);
       break;
     }
 
@@ -778,7 +790,7 @@ void loop() {
 
       // ── No water → Error ──
       if (!waterPresent) {
-        currentState = State::NoWater;
+        transitionTo(State::NoWater);
         break;
       }
 
@@ -797,13 +809,13 @@ void loop() {
 
       // ── Moisture low → start pumping ──
       if (moistPct <= onThreshold) {
-        currentState = State::PumpOn;
+        transitionTo(State::PumpOn);
         break;
       }
 
       if (now - lastWaterMs < MIN_PUMP_CD) break;
 
-      currentState = State::MainLoop;
+      transitionTo(State::MainLoop);
       break;
     }
 
@@ -818,7 +830,7 @@ void loop() {
       if (!pumpOn) pumpSet(true);  // turn on once on first entry
 
       if (isButtonDown()) {
-        currentState = State::PumpOff;
+        transitionTo(State::PumpOff);
         break;
       }
 
@@ -838,7 +850,7 @@ void loop() {
 
       // Exit conditions: moisture satisfied OR pump safety timeout
       if (moistPct >= OFF_THRESHOLD_BASE || pumpTooLong || !waterPresent) {
-        currentState = State::PumpOff;
+        transitionTo(State::PumpOff);
         break;
       }
 
@@ -855,15 +867,15 @@ void loop() {
       disableLEDS();
 
       if (isButtonDown()) {
-        currentState = State::MainLoop;
+        transitionTo(State::MainLoop);
         break;
       }
 
       if (wasTooLong) {
         pumpOffCDTime = now + PUMP_CD_MILLIS;
-        currentState = State::PumpCD;
+        transitionTo(State::PumpCD);
       } else {
-        currentState = State::MainLoop;
+        transitionTo(State::MainLoop);
       }
       break;
     }
@@ -879,7 +891,7 @@ void loop() {
       if (now >= pumpOffCDTime) {
         pumpOffCDTime = 0;
         disableLEDS();
-        currentState = State::MainLoop;
+        transitionTo(State::MainLoop);
       }
       // else: still cooling down (self-loop)
       break;
@@ -898,7 +910,7 @@ void loop() {
       int rawWater = analogRead(WATER_READ);
       if (rawWater >= WATER_THRESHOLD) {
         disableLEDS();
-        currentState = State::WaterLoop;
+        transitionTo(State::WaterLoop);
       }
       break;
     }
@@ -921,7 +933,7 @@ void loop() {
 
       if (moistureSensorFail) break; // Still not reading properly
 
-      currentState = State::MainLoop; // Reset to main loop
+      transitionTo(State::MainLoop); // Reset to main loop
       break;
     }
 
@@ -938,7 +950,7 @@ void loop() {
 
       if (tempSensorFail) break; // Still not reading properly
 
-      currentState = State::MainLoop; // Reset to main loop
+      transitionTo(State::MainLoop); // Reset to main loop
       break;
     }
 
@@ -946,7 +958,7 @@ void loop() {
     default: {
       Serial.print("ERROR: Unhandled state: ");
       Serial.println(stateNames[static_cast<int>(currentState)]);
-      currentState = State::MainLoop;
+      transitionTo(State::MainLoop);
       break;
     }
   }
