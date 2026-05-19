@@ -5,6 +5,244 @@
 	(uuid "7ee28b9c-29c8-4813-9f10-a9f6710a33cd")
 	(paper "A4")
 	(lib_symbols
+		(symbol "Connector:Barrel_Jack_Switch_Pin3Ring"
+			(pin_names
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "J"
+				(at 0 5.334 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Barrel_Jack_Switch_Pin3Ring"
+				(at 0 -5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 1.27 -1.016 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 1.27 -1.016 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "DC Barrel Jack with an internal switch"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "DC power barrel jack connector"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "BarrelJack*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Barrel_Jack_Switch_Pin3Ring_0_1"
+				(rectangle
+					(start -5.08 3.81)
+					(end 5.08 -3.81)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.81 -2.54) (xy -2.54 -2.54) (xy -1.27 -1.27) (xy 0 -2.54) (xy 2.54 -2.54) (xy 5.08 -2.54)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start -3.302 1.905)
+					(mid -3.9343 2.54)
+					(end -3.302 3.175)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start -3.302 1.905)
+					(mid -3.9343 2.54)
+					(end -3.302 3.175)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -2.286) (xy 1.905 -1.651)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start 3.683 3.175)
+					(end -3.302 1.905)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 5.08 2.54) (xy 3.81 2.54)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 5.08 0) (xy 1.27 0) (xy 1.27 -2.286) (xy 0.635 -1.651)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Barrel_Jack_Switch_Pin3Ring_1_1"
+				(pin passive line
+					(at 7.62 2.54 180)
+					(length 2.54)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 0 180)
+					(length 2.54)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 -2.54 180)
+					(length 2.54)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Connector:USB_C_Receptacle_USB2.0_16P"
 			(pin_names
 				(offset 1.016)
@@ -2552,6 +2790,159 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Regulator_Linear:AMS1117-5.0"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at -3.81 3.175 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "AMS1117-5.0"
+				(at 0 3.175 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Package_TO_SOT_SMD:SOT-223-3_TabPin2"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "http://www.advanced-monolithic.com/pdf/ds1117.pdf"
+				(at 2.54 -6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "1A Low Dropout regulator, positive, 5.0V fixed output, SOT-223"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "linear regulator ldo fixed positive"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "SOT?223*TabPin2*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "AMS1117-5.0_0_1"
+				(rectangle
+					(start -5.08 -5.08)
+					(end 5.08 1.905)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "AMS1117-5.0_1_1"
+				(pin power_in line
+					(at 0 -7.62 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 7.62 0 180)
+					(length 2.54)
+					(name "VO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -7.62 0 0)
+					(length 2.54)
+					(name "VI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Regulator_Linear:AP2112K-3.3"
 			(pin_names
 				(offset 0.254)
@@ -3303,7 +3694,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "power:VBUS"
+		(symbol "power:PWR_FLAG"
 			(power global)
 			(pin_numbers
 				(hide yes)
@@ -3317,8 +3708,8 @@
 			(on_board yes)
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "#PWR"
-				(at 0 -3.81 0)
+			(property "Reference" "#FLG"
+				(at 0 1.905 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -3328,8 +3719,8 @@
 					)
 				)
 			)
-			(property "Value" "VBUS"
-				(at 0 3.556 0)
+			(property "Value" "PWR_FLAG"
+				(at 0 3.81 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -3360,7 +3751,7 @@
 					)
 				)
 			)
-			(property "Description" "Power symbol creates a global label with name \"VBUS\""
+			(property "Description" "Special symbol for telling ERC where power comes from"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -3371,7 +3762,7 @@
 					)
 				)
 			)
-			(property "ki_keywords" "global power"
+			(property "ki_keywords" "flag power"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -3382,46 +3773,8 @@
 					)
 				)
 			)
-			(symbol "VBUS_0_1"
-				(polyline
-					(pts
-						(xy -0.762 1.27) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 2.54) (xy 0.762 1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "VBUS_1_1"
-				(pin power_in line
+			(symbol "PWR_FLAG_0_0"
+				(pin power_out line
 					(at 0 0 90)
 					(length 0)
 					(name ""
@@ -3437,6 +3790,20 @@
 								(size 1.27 1.27)
 							)
 						)
+					)
+				)
+			)
+			(symbol "PWR_FLAG_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 1.27) (xy -1.016 1.905) (xy 0 2.54) (xy 1.016 1.905) (xy 0 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
 					)
 				)
 			)
@@ -3480,6 +3847,18 @@
 		(uuid "aacadfc2-4e80-446e-8b3c-eb6119b67dbd")
 	)
 	(rectangle
+		(start 129.54 113.03)
+		(end 187.96 156.21)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "dcb0ec06-480f-444c-a00f-41705762269f")
+	)
+	(rectangle
 		(start 113.03 13.97)
 		(end 187.96 111.76)
 		(stroke
@@ -3501,6 +3880,16 @@
 		)
 		(uuid "4ac5eb82-f6ed-48f7-8311-9be594db1591")
 	)
+	(text "5 LDO & Jack"
+		(exclude_from_sim no)
+		(at 156.972 117.094 0)
+		(effects
+			(font
+				(size 5.08 5.08)
+			)
+		)
+		(uuid "59ef6b05-6384-4cd8-ac02-2f67fbf888e1")
+	)
 	(text "3.3 LDO\n"
 		(exclude_from_sim no)
 		(at 98.552 117.856 0)
@@ -3521,15 +3910,21 @@
 		)
 		(uuid "aa26106f-e008-4ec0-b4a4-2de3ddbc4406")
 	)
-	(text "Power & USB-C\n"
+	(text "USB-C & USB-C Power"
 		(exclude_from_sim no)
-		(at 46.736 19.304 0)
+		(at 61.214 18.542 0)
 		(effects
 			(font
 				(size 5.08 5.08)
 			)
 		)
 		(uuid "ce394206-050d-4955-90a5-c21f77862591")
+	)
+	(junction
+		(at 162.56 130.81)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0b6efd97-564c-4e37-9b87-71fbf351c392")
 	)
 	(junction
 		(at 57.15 160.02)
@@ -3556,6 +3951,18 @@
 		(uuid "2d6e42b6-5785-45c8-9cfa-663c95eb59e8")
 	)
 	(junction
+		(at 160.02 130.81)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3b014cb0-de1d-4895-b7f6-8c0481ab4767")
+	)
+	(junction
+		(at 162.56 138.43)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3d5064ad-1895-4c4e-81ea-4e95a5b7ed19")
+	)
+	(junction
 		(at 96.52 132.08)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3568,6 +3975,12 @@
 		(uuid "4d4912f5-5f3d-426a-b9d4-eb81e401005c")
 	)
 	(junction
+		(at 158.75 138.43)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "5afd2f62-0226-46f6-aa92-c2f4016f0c71")
+	)
+	(junction
 		(at 57.15 135.89)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3577,7 +3990,7 @@
 		(at 52.07 35.56)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "6bc4faba-bf75-4bea-9c6f-f1322e7d07ee")
+		(uuid "78afec74-ce99-4191-8536-93376d1541f3")
 	)
 	(junction
 		(at 146.05 33.02)
@@ -3734,6 +4147,10 @@
 		(uuid "bc1250ee-5948-42cd-a8d4-c40110d3a96f")
 	)
 	(no_connect
+		(at 151.13 133.35)
+		(uuid "c1038ac9-e698-455d-939d-5375b5d20185")
+	)
+	(no_connect
 		(at 168.91 88.9)
 		(uuid "c7172c97-b7aa-4d55-85b9-542c9e063c5b")
 	)
@@ -3748,6 +4165,16 @@
 	(no_connect
 		(at 168.91 71.12)
 		(uuid "f1f45cdd-fc56-4240-bd05-8da2ae2fc037")
+	)
+	(wire
+		(pts
+			(xy 160.02 130.81) (xy 162.56 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "02602451-87b9-4193-b106-bce2f13a338b")
 	)
 	(wire
 		(pts
@@ -3901,6 +4328,26 @@
 	)
 	(wire
 		(pts
+			(xy 151.13 138.43) (xy 158.75 138.43)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "315a2a82-66ee-4457-a7d2-258d7d35d5f2")
+	)
+	(wire
+		(pts
+			(xy 151.13 130.81) (xy 160.02 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3b99cb60-3df3-4444-9dc2-7c7ef1f77a8a")
+	)
+	(wire
+		(pts
 			(xy 45.72 52.07) (xy 53.34 52.07)
 		)
 		(stroke
@@ -3931,6 +4378,16 @@
 	)
 	(wire
 		(pts
+			(xy 158.75 138.43) (xy 162.56 138.43)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "53690a2a-13a1-49d4-aa6a-bacfd1c58ac8")
+	)
+	(wire
+		(pts
 			(xy 96.52 132.08) (xy 96.52 134.62)
 		)
 		(stroke
@@ -3941,6 +4398,16 @@
 	)
 	(wire
 		(pts
+			(xy 151.13 138.43) (xy 151.13 135.89)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5da45295-383b-4f09-8f3b-b4ffb9d65fe7")
+	)
+	(wire
+		(pts
 			(xy 153.67 33.02) (xy 153.67 48.26)
 		)
 		(stroke
@@ -3948,6 +4415,16 @@
 			(type default)
 		)
 		(uuid "5eea9544-95ff-4a54-a35c-969503cc38ac")
+	)
+	(wire
+		(pts
+			(xy 162.56 138.43) (xy 172.72 138.43)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6d434db0-8344-4d9c-aad1-921eaf193589")
 	)
 	(wire
 		(pts
@@ -4131,6 +4608,16 @@
 	)
 	(wire
 		(pts
+			(xy 180.34 130.81) (xy 184.15 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bdbbd275-ecf8-4061-aef8-132096ee6158")
+	)
+	(wire
+		(pts
 			(xy 52.07 160.02) (xy 57.15 160.02)
 		)
 		(stroke
@@ -4158,6 +4645,16 @@
 			(type default)
 		)
 		(uuid "c2b1235f-7776-430a-82e9-8ecc1701b130")
+	)
+	(wire
+		(pts
+			(xy 162.56 130.81) (xy 165.1 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ca2a3302-8654-4ac1-8fc2-73f9b9fca24d")
 	)
 	(wire
 		(pts
@@ -4807,7 +5304,6 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "0016cadd-5f17-4f4b-9a62-e53bb1cc8fcd")
 		(property "Reference" "#PWR015"
 			(at 36.83 130.81 0)
@@ -4820,14 +5316,15 @@
 				)
 			)
 		)
-		(property "Value" "+3.3V"
-			(at 36.83 121.92 0)
+		(property "Value" "+3.3V_USB"
+			(at 31.496 122.936 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -5347,7 +5844,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "10d60d8e-f3f6-40b7-9acf-186ffa0f6076")
-		(property "Reference" "U3"
+		(property "Reference" "U2"
 			(at 155.8133 45.72 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5528,7 +6025,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
-					(reference "U3")
+					(reference "U2")
 					(unit 1)
 				)
 			)
@@ -5546,7 +6043,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1514d563-2e4e-4b5e-a308-a458f2877263")
-		(property "Reference" "C6"
+		(property "Reference" "C7"
 			(at 119.38 134.6199 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5610,7 +6107,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
-					(reference "C6")
+					(reference "C7")
 					(unit 1)
 				)
 			)
@@ -5627,7 +6124,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "18733516-5e39-46cd-b2aa-398b6d448e7f")
-		(property "Reference" "R6"
+		(property "Reference" "R2"
 			(at 45.72 86.36 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5691,7 +6188,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
-					(reference "R6")
+					(reference "R2")
 					(unit 1)
 				)
 			)
@@ -6025,7 +6522,6 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "50b9e3ac-e4e2-4e74-9d93-44c7e1e42ff1")
 		(property "Reference" "#PWR012"
 			(at 134.62 36.83 0)
@@ -6038,14 +6534,15 @@
 				)
 			)
 		)
-		(property "Value" "+3.3V"
-			(at 134.62 27.94 0)
+		(property "Value" "+3.3V_USB"
+			(at 129.286 29.21 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -6419,7 +6916,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "701f8f20-2c0b-4be1-a04f-05b0c48585a2")
-		(property "Reference" "R7"
+		(property "Reference" "R3"
 			(at 59.69 86.3599 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6483,7 +6980,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
-					(reference "R7")
+					(reference "R3")
 					(unit 1)
 				)
 			)
@@ -6577,7 +7074,6 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "786803e4-0ad1-4194-a13b-e2eecd617bf9")
 		(property "Reference" "#PWR018"
 			(at 36.83 154.94 0)
@@ -6590,14 +7086,15 @@
 				)
 			)
 		)
-		(property "Value" "+3.3V"
-			(at 36.83 146.05 0)
+		(property "Value" "+3.3V_USB"
+			(at 31.496 147.066 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -6735,7 +7232,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "793c7f2a-d0f7-4d0b-b33a-f247a50162a8")
-		(property "Reference" "C5"
+		(property "Reference" "C6"
 			(at 91.44 134.6199 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6799,7 +7296,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
-					(reference "C5")
+					(reference "C6")
 					(unit 1)
 				)
 			)
@@ -6817,7 +7314,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7c925727-dfb3-44fc-85b2-c5273256fa0b")
-		(property "Reference" "C8"
+		(property "Reference" "C2"
 			(at 149.86 35.5599 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6881,7 +7378,85 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
-					(reference "C8")
+					(reference "C2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 158.75 138.43 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "7eb075cd-2828-473d-b183-a6dac9f8137a")
+		(property "Reference" "#PWR033"
+			(at 158.75 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 158.75 143.51 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 158.75 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 158.75 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 158.75 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "7777fcb5-1eb3-4d55-ae7e-342a4a22a130")
+		)
+		(instances
+			(project "HerbUnitPCB"
+				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
+					(reference "#PWR033")
 					(unit 1)
 				)
 			)
@@ -6899,7 +7474,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "81ceab32-bead-4ef4-a36f-79b485aa0a12")
-		(property "Reference" "R2"
+		(property "Reference" "R6"
 			(at 39.37 153.6699 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6963,7 +7538,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
-					(reference "R2")
+					(reference "R6")
 					(unit 1)
 				)
 			)
@@ -6979,7 +7554,6 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "8953ec63-0b91-44db-bbd2-f1960102ec6d")
 		(property "Reference" "#PWR09"
 			(at 115.57 135.89 0)
@@ -6992,14 +7566,15 @@
 				)
 			)
 		)
-		(property "Value" "+3.3V"
-			(at 115.57 127 0)
+		(property "Value" "+3.3V_USB"
+			(at 110.744 128.016 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -7048,6 +7623,165 @@
 		)
 	)
 	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 160.02 130.81 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8a725142-e8b4-4909-b687-c17619e5ba59")
+		(property "Reference" "#FLG02"
+			(at 160.02 128.905 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 160.02 125.73 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 160.02 130.81 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 160.02 130.81 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 160.02 130.81 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "2c95004f-12ae-44f6-9099-03a38ed13429")
+		)
+		(instances
+			(project "HerbUnitPCB"
+				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
+					(reference "#FLG02")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 162.56 134.62 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "8f369a06-9493-466f-87ef-55cd817dabfc")
+		(property "Reference" "C5"
+			(at 155.702 133.096 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10u"
+			(at 154.94 135.636 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 163.5252 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 162.56 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 162.56 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "586dff6a-420d-45bf-a2d8-0c99b205c4fa")
+		)
+		(pin "1"
+			(uuid "35a43934-a0c6-4ad9-b62c-395fd19c7587")
+		)
+		(instances
+			(project "HerbUnitPCB"
+				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
+					(reference "C5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_US")
 		(at 90.17 35.56 90)
 		(unit 1)
@@ -7059,7 +7793,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "926ac7aa-5e30-46fc-af1d-c70f3c503027")
-		(property "Reference" "R8"
+		(property "Reference" "R1"
 			(at 90.17 29.21 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7121,7 +7855,89 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
-					(reference "R8")
+					(reference "R1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Regulator_Linear:AMS1117-5.0")
+		(at 172.72 130.81 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "92b3dd36-7844-47f3-83e3-5c7e408a33e2")
+		(property "Reference" "U3"
+			(at 172.72 122.936 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AMS1117-5.0"
+			(at 172.72 125.476 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-223-3_TabPin2"
+			(at 172.72 125.73 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "http://www.advanced-monolithic.com/pdf/ds1117.pdf"
+			(at 175.26 137.16 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "1A Low Dropout regulator, positive, 5.0V fixed output, SOT-223"
+			(at 172.72 130.81 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "5062c364-7c25-4609-8a0a-edee549c7822")
+		)
+		(pin "1"
+			(uuid "6ebb14f9-a3c5-4699-a641-900e49ad8f8d")
+		)
+		(pin "3"
+			(uuid "0887e632-3a57-42b1-8d3a-82350a0e8a6d")
+		)
+		(instances
+			(project "HerbUnitPCB"
+				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
+					(reference "U3")
 					(unit 1)
 				)
 			)
@@ -7139,7 +7955,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "980d3064-9556-4f62-8e31-7be31d850b9c")
-		(property "Reference" "R5"
+		(property "Reference" "R7"
 			(at 48.26 153.67 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7201,7 +8017,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
-					(reference "R5")
+					(reference "R7")
 					(unit 1)
 				)
 			)
@@ -7298,7 +8114,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "affc5f3b-b117-4a80-81ef-e68d62084313")
-		(property "Reference" "U2"
+		(property "Reference" "U4"
 			(at 104.14 125.73 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7369,7 +8185,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
-					(reference "U2")
+					(reference "U4")
 					(unit 1)
 				)
 			)
@@ -7387,7 +8203,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b0f40019-4db6-4596-a55d-65f0d3cde4f7")
-		(property "Reference" "C2"
+		(property "Reference" "C9"
 			(at 60.96 162.5599 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7451,7 +8267,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
-					(reference "C2")
+					(reference "C9")
 					(unit 1)
 				)
 			)
@@ -7547,7 +8363,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b4c736a2-7590-4fac-b2e9-d4bf96f29c6a")
-		(property "Reference" "R4"
+		(property "Reference" "R5"
 			(at 48.26 129.54 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7609,7 +8425,85 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
-					(reference "R4")
+					(reference "R5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 52.07 35.56 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "bf595da8-de72-4816-8803-332431e14e2e")
+		(property "Reference" "#FLG01"
+			(at 52.07 33.655 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 52.07 30.48 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 52.07 35.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 52.07 35.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 52.07 35.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b83352f5-0464-445a-948d-14f2dd3c707b")
+		)
+		(instances
+			(project "HerbUnitPCB"
+				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
+					(reference "#FLG01")
 					(unit 1)
 				)
 			)
@@ -7627,7 +8521,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c4fb39dd-cb9e-4c7c-b5f9-076fee468ec6")
-		(property "Reference" "R1"
+		(property "Reference" "R4"
 			(at 39.37 129.5399 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7691,7 +8585,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
-					(reference "R1")
+					(reference "R4")
 					(unit 1)
 				)
 			)
@@ -7709,7 +8603,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "dc4d9ced-69fd-479d-bbd1-75c76b12b9c1")
-		(property "Reference" "C1"
+		(property "Reference" "C8"
 			(at 60.96 138.4299 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7773,7 +8667,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
-					(reference "C1")
+					(reference "C8")
 					(unit 1)
 				)
 			)
@@ -7869,7 +8763,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e00c3895-0584-4eb3-bee5-8fd22d4e7d5e")
-		(property "Reference" "R3"
+		(property "Reference" "R8"
 			(at 46.99 175.26 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7931,7 +8825,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
-					(reference "R3")
+					(reference "R8")
 					(unit 1)
 				)
 			)
@@ -8020,8 +8914,8 @@
 		)
 	)
 	(symbol
-		(lib_id "power:VBUS")
-		(at 52.07 35.56 0)
+		(lib_id "Connector:Barrel_Jack_Switch_Pin3Ring")
+		(at 143.51 133.35 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8030,10 +8924,9 @@
 		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "e7d0abf5-50d2-4b49-bbc5-024bfa010f49")
-		(property "Reference" "#PWR05"
-			(at 52.07 39.37 0)
-			(hide yes)
+		(uuid "e3564670-680e-4fa0-8c43-12b76ed2eb63")
+		(property "Reference" "J2"
+			(at 143.51 124.46 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8042,8 +8935,8 @@
 				)
 			)
 		)
-		(property "Value" "VBUS"
-			(at 52.07 30.48 0)
+		(property "Value" "Barrel_Jack_Switch_Pin3Ring"
+			(at 143.51 127 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8052,8 +8945,8 @@
 				)
 			)
 		)
-		(property "Footprint" ""
-			(at 52.07 35.56 0)
+		(property "Footprint" "Connector_BarrelJack:BarrelJack_Horizontal"
+			(at 144.78 134.366 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8064,7 +8957,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 52.07 35.56 0)
+			(at 144.78 134.366 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8074,8 +8967,8 @@
 				)
 			)
 		)
-		(property "Description" "Power symbol creates a global label with name \"VBUS\""
-			(at 52.07 35.56 0)
+		(property "Description" "DC Barrel Jack with an internal switch"
+			(at 143.51 133.35 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8086,12 +8979,95 @@
 			)
 		)
 		(pin "1"
-			(uuid "a039c44d-7f22-4655-84fe-ebd8128fed7c")
+			(uuid "85b40af1-b727-4c91-b82e-b2cb1d5d8696")
+		)
+		(pin "2"
+			(uuid "0e0a601a-d40e-4ae1-9c21-e8c4a427ac14")
+		)
+		(pin "3"
+			(uuid "39096127-3e79-418f-8b4a-68cce51cf768")
 		)
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
-					(reference "#PWR05")
+					(reference "J2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+5V")
+		(at 184.15 130.81 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "ed044edf-3024-46b7-9536-654c4c33869f")
+		(property "Reference" "#PWR034"
+			(at 184.15 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+5V_JACK"
+			(at 182.88 127.254 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 184.15 130.81 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 184.15 130.81 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 184.15 130.81 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "7955c23a-1c41-44c5-a7c8-1ebae3fa31b4")
+		)
+		(instances
+			(project "HerbUnitPCB"
+				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
+					(reference "#PWR034")
 					(unit 1)
 				)
 			)
@@ -8265,7 +9241,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "fdc74d20-1c74-449e-ba86-819c85827523")
-		(property "Reference" "C7"
+		(property "Reference" "C1"
 			(at 138.43 35.5599 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8329,7 +9305,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/9537999c-2d2d-4c3b-bb2b-cbc8278ca9a4"
-					(reference "C7")
+					(reference "C1")
 					(unit 1)
 				)
 			)

@@ -1693,6 +1693,145 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "power:+5V"
+			(power global)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "#PWR"
+				(at 0 -3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "+5V"
+				(at 0 3.556 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"+5V\""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "+5V_0_1"
+				(polyline
+					(pts
+						(xy -0.762 1.27) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 2.54) (xy 0.762 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "+5V_1_1"
+				(pin power_in line
+					(at 0 0 90)
+					(length 0)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "power:GND"
 			(power global)
 			(pin_numbers
@@ -1834,6 +1973,18 @@
 		(uuid "64d5fcd1-3a0c-4d36-83e7-ef0320dffc98")
 	)
 	(rectangle
+		(start 15.24 110.49)
+		(end 78.74 133.35)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "704a7c92-9f8d-4e9d-b1a2-4a8ee01fa287")
+	)
+	(rectangle
 		(start 118.11 13.97)
 		(end 181.61 50.8)
 		(stroke
@@ -1920,6 +2071,16 @@
 			)
 		)
 		(uuid "8a6135d0-1de4-47a1-b84a-dd0611cd92ae")
+	)
+	(text "Pump Header"
+		(exclude_from_sim no)
+		(at 40.894 114.554 0)
+		(effects
+			(font
+				(size 5.08 5.08)
+			)
+		)
+		(uuid "af55c04e-6d31-463d-8846-677c3ad60784")
 	)
 	(text "Temp Sensor"
 		(exclude_from_sim no)
@@ -2030,6 +2191,16 @@
 			(type default)
 		)
 		(uuid "4c0e2dc7-d4f2-4107-9dc3-3fcd5bff7a4a")
+	)
+	(wire
+		(pts
+			(xy 40.64 124.46) (xy 43.18 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "77546b08-7d10-4243-bb94-b136ac2cf28c")
 	)
 	(wire
 		(pts
@@ -2313,30 +2484,6 @@
 			)
 		)
 	)
-	(global_label "SD_MOSI"
-		(shape input)
-		(at 134.62 73.66 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "69a28f7a-a44a-4ae0-aaa6-ab1c9871781e")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 123.5915 73.66 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
 	(global_label "BlueLED"
 		(shape input)
 		(at 29.21 46.99 180)
@@ -2382,6 +2529,133 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+			)
+		)
+	)
+	(global_label "SD_MISO"
+		(shape input)
+		(at 134.62 73.66 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "d076c6bd-7d8d-4c00-953b-4ad5bfb50f74")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 123.5915 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(global_label "PumpMotor"
+		(shape input)
+		(at 40.64 124.46 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "fe7cfccd-5bc6-4ba8-a02e-7b8a70c9d7be")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 27.1322 124.46 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+5V")
+		(at 43.18 127 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "03b1ff1c-2c91-4bba-9132-76fa8a33b8af")
+		(property "Reference" "#PWR035"
+			(at 46.99 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+5V_JACK"
+			(at 39.37 126.9999 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 43.18 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 43.18 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 43.18 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "8215bff4-3093-4a0c-8438-b5064a9d1222")
+		)
+		(instances
+			(project "HerbUnitPCB"
+				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/29257fe1-69a7-4951-8718-03b801486004"
+					(reference "#PWR035")
+					(unit 1)
+				)
 			)
 		)
 	)
@@ -2475,7 +2749,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1c505afd-852c-4c51-9ec2-9015537e07ea")
-		(property "Reference" "J2"
+		(property "Reference" "J4"
 			(at 163.83 82.5499 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2560,7 +2834,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/29257fe1-69a7-4951-8718-03b801486004"
-					(reference "J2")
+					(reference "J4")
 					(unit 1)
 				)
 			)
@@ -2658,7 +2932,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "31be4929-6651-431d-b2f3-1b58b3b4907e")
-		(property "Reference" "R10"
+		(property "Reference" "R12"
 			(at 38.1 40.64 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2720,7 +2994,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/29257fe1-69a7-4951-8718-03b801486004"
-					(reference "R10")
+					(reference "R12")
 					(unit 1)
 				)
 			)
@@ -2738,7 +3012,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "32385547-7847-472b-9168-42534b7962b5")
-		(property "Reference" "R11"
+		(property "Reference" "R13"
 			(at 38.1 53.34 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2800,7 +3074,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/29257fe1-69a7-4951-8718-03b801486004"
-					(reference "R11")
+					(reference "R13")
 					(unit 1)
 				)
 			)
@@ -2818,7 +3092,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "38db3279-bb12-4e7f-b9bf-c9f9a5d32c4b")
-		(property "Reference" "J4"
+		(property "Reference" "J5"
 			(at 72.39 96.5199 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2882,7 +3156,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/29257fe1-69a7-4951-8718-03b801486004"
-					(reference "J4")
+					(reference "J5")
 					(unit 1)
 				)
 			)
@@ -2991,7 +3265,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "394b3ab8-f6ab-43ad-9b3d-196f32f3eebc")
-		(property "Reference" "U4"
+		(property "Reference" "U5"
 			(at 74.93 34.2899 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3061,7 +3335,86 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/29257fe1-69a7-4951-8718-03b801486004"
-					(reference "U4")
+					(reference "U5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 43.18 129.54 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "3b622ccb-862a-4705-828c-e3d1d1f2d494")
+		(property "Reference" "#PWR037"
+			(at 36.83 129.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 39.37 129.5399 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 43.18 129.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 43.18 129.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 43.18 129.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "9c0afb56-d3e4-44d8-b7da-81aeb20ecf4d")
+		)
+		(instances
+			(project "HerbUnitPCB"
+				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/29257fe1-69a7-4951-8718-03b801486004"
+					(reference "#PWR037")
 					(unit 1)
 				)
 			)
@@ -3077,7 +3430,6 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "3ba65121-c13f-4e54-9ccd-dd99c5a5d63e")
 		(property "Reference" "#PWR032"
 			(at 64.77 100.33 0)
@@ -3090,14 +3442,15 @@
 				)
 			)
 		)
-		(property "Value" "+3.3V"
-			(at 64.77 91.44 0)
+		(property "Value" "+3.3V_USB"
+			(at 59.182 92.202 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -3473,6 +3826,91 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:Conn_01x03_Pin")
+		(at 48.26 127 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "5e16342b-7192-476c-a8aa-6aaa3940b71a")
+		(property "Reference" "J6"
+			(at 49.53 125.7299 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "Conn_01x03_Pin"
+			(at 49.53 128.2699 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 48.26 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 48.26 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x03, script generated"
+			(at 48.26 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "49421814-f1e1-4b10-8f2d-9cabbf9a11e4")
+		)
+		(pin "3"
+			(uuid "7166ecd2-1b6e-43eb-bec8-c1fd3a731da6")
+		)
+		(pin "1"
+			(uuid "caa12c03-8047-46b2-907e-61d950b5ef4b")
+		)
+		(instances
+			(project "HerbUnitPCB"
+				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/29257fe1-69a7-4951-8718-03b801486004"
+					(reference "J6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 58.42 33.02 0)
 		(unit 1)
@@ -3651,7 +4089,7 @@
 				)
 			)
 		)
-		(property "Value" "+3.3V"
+		(property "Value" "+3.3V_USB"
 			(at 104.14 35.5599 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3717,7 +4155,6 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "74e3444c-218d-4423-b190-5cbd61c98765")
 		(property "Reference" "#PWR030"
 			(at 149.86 69.85 0)
@@ -3730,14 +4167,15 @@
 				)
 			)
 		)
-		(property "Value" "+3.3V"
-			(at 149.86 60.96 0)
+		(property "Value" "+3.3V_USB"
+			(at 144.78 61.976 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -3797,7 +4235,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7871e74e-85b0-47ee-a3e7-f149cdbafac8")
-		(property "Reference" "R13"
+		(property "Reference" "R9"
 			(at 151.13 30.4799 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3861,7 +4299,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/29257fe1-69a7-4951-8718-03b801486004"
-					(reference "R13")
+					(reference "R9")
 					(unit 1)
 				)
 			)
@@ -4046,7 +4484,6 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "999ac461-3dbf-4f81-bb34-5ba2525d11d3")
 		(property "Reference" "#PWR023"
 			(at 81.28 31.75 0)
@@ -4059,14 +4496,15 @@
 				)
 			)
 		)
-		(property "Value" "+3.3V"
-			(at 81.28 22.86 0)
+		(property "Value" "+3.3V_USB"
+			(at 75.946 24.384 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -4124,7 +4562,6 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "a30f2f82-4cb8-4e95-9219-716f08e69b9d")
 		(property "Reference" "#PWR028"
 			(at 152.4 40.64 0)
@@ -4137,15 +4574,14 @@
 				)
 			)
 		)
-		(property "Value" "+3.3V"
-			(at 144.78 40.6399 90)
+		(property "Value" "+3.3V_USB"
+			(at 140.716 40.64 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -4205,7 +4641,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "bb199260-d600-46be-a1ce-31e91638ac88")
-		(property "Reference" "R9"
+		(property "Reference" "R10"
 			(at 38.1 26.67 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4267,7 +4703,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/29257fe1-69a7-4951-8718-03b801486004"
-					(reference "R9")
+					(reference "R10")
 					(unit 1)
 				)
 			)
@@ -4526,7 +4962,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f22b9736-c1a2-4c0e-af40-3119695e9ca5")
-		(property "Reference" "R12"
+		(property "Reference" "R11"
 			(at 96.52 29.21 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4588,7 +5024,7 @@
 		(instances
 			(project "HerbUnitPCB"
 				(path "/65cebcdd-0dc1-4eaa-a413-d7a78528268c/29257fe1-69a7-4951-8718-03b801486004"
-					(reference "R12")
+					(reference "R11")
 					(unit 1)
 				)
 			)
